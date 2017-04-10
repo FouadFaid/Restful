@@ -1,5 +1,5 @@
-var express = require('express'),
-    bodyParser = require('body-parser');
+var express = require('express');
+
 
 var routes = function(Book){
     var bookRouter = express.Router();
@@ -7,8 +7,9 @@ var routes = function(Book){
     bookRouter.route('/')
         .post(function(req, res){
             var book = new Book(req.body);
-            book.save();
 
+
+            book.save();
             res.status(201).send(book);
 
         })
@@ -20,13 +21,11 @@ var routes = function(Book){
             {
                 query.genre = req.query.genre;
             }
-            Book.find(function(err,books){
+            Book.find(query, function(err,books){
                 if(err)
                     res.status(500).send(err);
                 else
                     res.json(books);
-                    //res.send('hello');
-
             });
         });
 
